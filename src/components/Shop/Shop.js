@@ -7,12 +7,14 @@ import './Shop.css'
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const[cart, setCart] = useState([])
+    const[displayProducts, setDisplayProducts] = useState([])
 
     useEffect ( () => {
         fetch('./products.JSON')
         .then(res => res.json())
         .then(data => {
             setProducts(data)
+            setDisplayProducts(data)
         })
         }
         ,[]);
@@ -43,7 +45,8 @@ const Shop = () => {
     const handleSearch = event => {
         const searchText = event.target.value
         const matchedProducts = products.filter(product => product.name.toLowerCase().includes(searchText.toLowerCase()))
-        console.log(matchedProducts.length)
+         
+        setDisplayProducts(matchedProducts)
     }
 
     return (
@@ -56,7 +59,7 @@ const Shop = () => {
             <div className='shop-container'>
                 <div className="product-container">
                     {
-                        products.map(product=> <Product
+                        displayProducts.map(product=> <Product
                             key={product. key}
                             product= {product}
                             handleAddToCart = {handleAddToCart}
